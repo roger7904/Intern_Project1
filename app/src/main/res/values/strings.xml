@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Intern_Project1</string>
+    <string name="tv_city">新北市</string>
+    <string name="tv_title">福保汽車</string>
+    <string name="tv_address">新北市新莊區化成路716號</string>
+    <string name="tv_phone">02-8521-7708</string>
+    <string name="tv_brand">專精品牌</string>
+    <string name="tv_brandname">VW、AUDI</string>
 </resources>

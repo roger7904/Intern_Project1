@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="vertical_margin">16dp</dimen>
+
+    <dimen name="text_size_12dp">12dp</dimen>
+    <dimen name="text_size_14dp">14dp</dimen>
+    <dimen name="text_size_16dp">16dp</dimen>
+    <dimen name="text_size_18dp">18dp</dimen>
+    <dimen name="text_size_20dp">20dp</dimen>
+
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
+
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_15dp">15dp</dimen>
+</resources>
