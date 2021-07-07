@@ -1,7 +1,29 @@
 package com.example.intern_project1.model.network.entities.entities
 
 object FactoryObject {
+
     data class FactoryInfo(
+        val data: Data,
+        val message: String,
+        val status: Int
+    )
+
+    data class Data(
+        val current_page: Int,
+        val data: List<DataX>,
+        val first_page_url: String,
+        val from: Int,
+        val last_page: Int,
+        val last_page_url: String,
+        val next_page_url: String,
+        val path: String,
+        val per_page: Int,
+        val prev_page_url: Any,
+        val to: Int,
+        val total: Int
+    )
+
+    data class DataX(
         val address: String,
         val city: String,
         val code: String,
