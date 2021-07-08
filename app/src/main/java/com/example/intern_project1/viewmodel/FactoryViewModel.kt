@@ -28,14 +28,12 @@ class FactoryViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())//執行後的callback要在哪個thread執行
                 .subscribeWith(object : DisposableSingleObserver<FactoryObject.FactoryInfo>() {
                     override fun onSuccess(value: FactoryObject.FactoryInfo?) {
-                        // Update the values with response in the success method.
                         loading.value = false
                         response.value = value!!
                         loadingError.value = false
                     }
 
                     override fun onError(e: Throwable?) {
-                        // Update the values in the response in the error method
                         loading.value = false
                         loadingError.value = true
                         e!!.printStackTrace()

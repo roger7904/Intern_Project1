@@ -1,15 +1,14 @@
-package com.example.intern_project1
+package com.example.intern_project1.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.intern_project1.databinding.ActivityMainBinding
+import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         mFactoryViewModel.getFactoryInfoFromApi()
 
         factoryViewModelObserver()
+
+        mbinding.swipeRefresh.setOnRefreshListener {
+            mFactoryViewModel.getFactoryInfoFromApi()
+        }
     }
 
     private fun factoryViewModelObserver() {
@@ -37,6 +40,15 @@ class MainActivity : AppCompatActivity() {
             this,
             Observer { response ->
                 response?.let {
+
+                    mbinding.rvFactorInfo.layoutManager = LinearLayoutManager(this)
+
+                    val factoryInfoAdapter = FactoryInfoAdapter(this,
+                        response.data.data as ArrayList<FactoryObject.DataX>
+                    )
+
+                    mbinding.rvFactorInfo.adapter = factoryInfoAdapter
+
                     Log.i("FactoryInfo Response", "${response.data.data[0]}")
                 }
             })
@@ -51,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         mFactoryViewModel.loading.observe(this, Observer { loading ->
             loading?.let {
+                mbinding.swipeRefresh.isRefreshing=loading
                 Log.i("Loading", "$loading")
             }
         })
