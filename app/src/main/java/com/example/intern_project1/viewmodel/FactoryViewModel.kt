@@ -23,7 +23,7 @@ class FactoryViewModel : ViewModel() {
         loading.value = true
 
         compositeDisposable.add(
-            factoryApiService.getFactoryInfo()
+            factoryApiService.getFactoryInfo(1)
                 .subscribeOn(Schedulers.newThread())//要在哪個thread執行
                 .observeOn(AndroidSchedulers.mainThread())//執行後的callback要在哪個thread執行
                 .subscribeWith(object : DisposableSingleObserver<FactoryObject.FactoryInfo>() {

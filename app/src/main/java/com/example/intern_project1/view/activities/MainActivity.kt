@@ -3,6 +3,7 @@ package com.example.intern_project1.view.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,14 +41,7 @@ class MainActivity : AppCompatActivity() {
             this,
             Observer { response ->
                 response?.let {
-
-                    mbinding.rvFactorInfo.layoutManager = LinearLayoutManager(this)
-
-                    val factoryInfoAdapter = FactoryInfoAdapter(this,
-                        response.data.data as ArrayList<FactoryObject.DataX>
-                    )
-
-                    mbinding.rvFactorInfo.adapter = factoryInfoAdapter
+                    setResponseToAdapter(response)
 
                     Log.i("FactoryInfo Response", "${response.data.data[0]}")
                 }
@@ -57,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             this,
             Observer { dataError ->
                 dataError?.let {
+                    mbinding.swipeRefresh.isRefreshing=!dataError //沒處理loadingError
                     Log.i("API Error", "$dataError")
                 }
             })
@@ -68,6 +63,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun setResponseToAdapter(response : FactoryObject.FactoryInfo){
+        mbinding.rvFactorInfo.layoutManager = LinearLayoutManager(this)
+
+        val factoryInfoAdapter = FactoryInfoAdapter(this,
+            response.data.data as ArrayList<FactoryObject.DataX>
+        )
+
+        mbinding.rvFactorInfo.adapter = factoryInfoAdapter
+    }
+
 }
 
 

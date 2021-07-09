@@ -17,9 +17,9 @@ class FactoryApiService {
         .build()
         .create(FactoryApi::class.java)
 
-    fun getFactoryInfo(): Single<FactoryObject.FactoryInfo> {
+    fun getFactoryInfo(page : Int): Single<FactoryObject.FactoryInfo> {
         return api.getFactoryInfo(
-            2
+            page
         )
     }
 }
