@@ -14,11 +14,11 @@ class FactoryInfoRepository(private val pagingSource: FactoryPagingSource){
     fun getMovies(): Flowable<PagingData<FactoryObject.DataX>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 5,
                 enablePlaceholders = true,
                 maxSize = 30,
                 prefetchDistance = 5,
-                initialLoadSize = 40),
+                initialLoadSize = 6),
             pagingSourceFactory = { pagingSource }
         ).flowable
     }

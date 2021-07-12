@@ -6,4 +6,9 @@
     <string name="tv_phone">02-8521-7708</string>
     <string name="tv_brand">專精品牌</string>
     <string name="tv_brandname">VW、AUDI</string>
+
+
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
 </resources>
