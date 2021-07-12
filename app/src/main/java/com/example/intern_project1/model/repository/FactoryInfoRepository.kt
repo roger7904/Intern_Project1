@@ -11,15 +11,19 @@ import io.reactivex.rxjava3.core.Flowable
 
 class FactoryInfoRepository(private val pagingSource: FactoryPagingSource){
 
-    fun getMovies(): Flowable<PagingData<FactoryObject.DataX>> {
+    fun getFactoryInfo(): Flowable<PagingData<FactoryObject.DataX>> {
+        //Flowable用來解決觀察者與被觀察者傳誦與接收資料速度差距過大所會發生的記憶體不足情形
         return Pager(
             config = PagingConfig(
-                pageSize = 5,
-                enablePlaceholders = true,
-                maxSize = 30,
-                prefetchDistance = 5,
-                initialLoadSize = 6),
-            pagingSourceFactory = { pagingSource }
+                initialLoadSize = 6, //初始化數據時加載的數量
+                pageSize = 5, //設置每頁加載的數量
+                prefetchDistance = 5, //預加載的數量
+                maxSize = 30, //刪除頁面前可加載的最大item數量
+                enablePlaceholders = true //當項目為空是否需要 Placeholder 默認為 true
+                ),
+            pagingSourceFactory = {
+                pagingSource
+            }
         ).flowable
     }
 }

@@ -50,13 +50,13 @@ class MainActivity : AppCompatActivity() {
 
         pagingDataAdaptor = FactoryInfoAdapter()
 
+        mFactoryViewModel.getFactoryInfoPagingData()
+
         //mFactoryViewModel.getFactoryInfoFromApi()
 
-
-
-        mbinding.swipeRefresh.setOnRefreshListener {
-            factoryViewModelObserver()
-        }
+//        mbinding.swipeRefresh.setOnRefreshListener {
+//            factoryViewModelObserver()
+//        }
 
         mbinding.rvFactorInfo.layoutManager = LinearLayoutManager(this)
         mbinding.rvFactorInfo.adapter = pagingDataAdaptor
@@ -86,12 +86,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun factoryViewModelObserver() {
 
-        lifecycleScope.launch {
-            mFactoryViewModel.getFactoryInfoPagingData()
-                .subscribe {
-                    pagingDataAdaptor.submitData(lifecycle, it)
-                }
-        }
+        mFactoryViewModel.factoryInfoPagingData.observe(
+            this,
+            Observer {
+                pagingDataAdaptor.submitData(lifecycle, it)
+            }
+        )
+
     }
 
 //        mFactoryViewModel.response.observe(

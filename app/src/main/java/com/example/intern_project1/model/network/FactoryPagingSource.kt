@@ -31,10 +31,6 @@ class FactoryPagingSource(
             }
             .onErrorReturn { e ->
                 when (e) {
-                    // Retrofit calls that return the body type throw either IOException for
-                    // network failures, or HttpException for any non-2xx HTTP status codes.
-                    // This code reports all errors to the UI, but you can inspect/wrap the
-                    // exceptions to provide more context.
                     is IOException -> LoadResult.Error(e)
                     is HttpException -> LoadResult.Error(e)
                     else -> throw e
