@@ -22,7 +22,7 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
 
     private val compositeDisposable = CompositeDisposable() //當頁面destroy可以自動取消訂閱，避免memory leak
 
-//    val loading = MutableLiveData<Boolean>()
+    val loading = MutableLiveData<Boolean>()
 //    val response = MutableLiveData<FactoryObject.FactoryInfo>()
 //    val loadingError = MutableLiveData<Boolean>()
 
@@ -52,11 +52,13 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
 //    }
 
     fun getFactoryInfoPagingData() {
+        loading.value = true
         compositeDisposable.add(
             repository.getFactoryInfo()
                 .cachedIn(viewModelScope)
                 .subscribe {
                     factoryInfoPagingData.value = it
+                    loading.value = false
                 }
         )
     }

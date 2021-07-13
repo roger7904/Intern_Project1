@@ -39,7 +39,7 @@ class FactoryPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, FactoryObject.DataX>): Int? {
-        TODO("Not yet implemented")
+        return state.anchorPosition
     }
 }
 
