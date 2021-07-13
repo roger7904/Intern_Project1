@@ -11,12 +11,12 @@ class FactoryLoadStateAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): FactoryLoadStateViewHolder {
         return FactoryLoadStateViewHolder.create(
-            parent
+            parent,retry
         )
     }
 
     override fun onBindViewHolder(holder: FactoryLoadStateViewHolder, loadState: LoadState) {
-        holder.bind(loadState,retry)
+        holder.bind(loadState)
     }
 
 }

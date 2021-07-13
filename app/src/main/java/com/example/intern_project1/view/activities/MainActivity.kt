@@ -32,12 +32,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private val mDisposable = CompositeDisposable()
-
     private lateinit var mbinding: ActivityMainBinding
     private lateinit var mFactoryViewModel: FactoryViewModel
-//    private lateinit var repository: FactoryInfoRepository
-//    private lateinit var pagingSource: FactoryPagingSource
     private lateinit var pagingDataAdaptor: FactoryInfoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         pagingDataAdaptor = FactoryInfoAdapter()
 
         mFactoryViewModel.getFactoryInfoPagingData()
-
-        //mFactoryViewModel.getFactoryInfoFromApi()
 
         mbinding.swipeRefresh.setOnRefreshListener {
             mFactoryViewModel.getFactoryInfoPagingData()
@@ -115,41 +109,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Loading", "$loading")
             }
         })
-
     }
-
-//        mFactoryViewModel.response.observe(
-//            this,
-//            Observer { response ->
-//                response?.let {
-//                    setResponseToAdapter(response)
-//
-//                    Log.i("FactoryInfo Response", "${response.data.data[0]}")
-//                }
-//            })
-
-//        mFactoryViewModel.loadingError.observe(
-//            this,
-//            Observer { dataError ->
-//                dataError?.let {
-//                    mbinding.swipeRefresh.isRefreshing=!dataError //沒處理loadingError
-//                    Log.i("API Error", "$dataError")
-//                }
-//            })
-//
-
-//    }
-
-//    private fun setResponseToAdapter(response : FactoryObject.FactoryInfo){
-//        mbinding.rvFactorInfo.layoutManager = LinearLayoutManager(this)
-//
-//        val factoryInfoAdapter = FactoryInfoAdapter(this,
-//            response.data.data as ArrayList<FactoryObject.DataX>
-//        )
-//
-//        mbinding.rvFactorInfo.adapter = factoryInfoAdapter
-//    }
-
 }
 
 

@@ -7,14 +7,20 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ItemLoadingStateBinding
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
 
-class FactoryLoadStateViewHolder(private val mbinding: ItemLoadingStateBinding) : RecyclerView.ViewHolder(mbinding.root) {
 
-    private var loadState: LoadState? = null
+class FactoryLoadStateViewHolder(
+    private val mbinding: ItemLoadingStateBinding,
+    retry: () -> Unit
+) : RecyclerView.ViewHolder(mbinding.root) {
 
-    fun bind(loadState: LoadState,retry: () -> Unit) {
-        this.loadState=loadState
+    init {
+        mbinding.loadStateRetry.setOnClickListener {
+            retry.invoke()
+        }
+    }
+
+    fun bind(loadState: LoadState) {
 
         val progress = mbinding.loadStateProgress
         val btnRetry = mbinding.loadStateRetry
@@ -28,20 +34,17 @@ class FactoryLoadStateViewHolder(private val mbinding: ItemLoadingStateBinding) 
             txtErrorMessage.text = loadState.error.localizedMessage
         }
 
-        btnRetry.setOnClickListener {
-            retry.invoke()
-        }
     }
 
     companion object {
-        fun create(parent: ViewGroup): FactoryLoadStateViewHolder {
+        fun create(parent: ViewGroup, retry: () -> Unit): FactoryLoadStateViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_loading_state,  parent,false)
 
             val binding = ItemLoadingStateBinding.bind(view)
 
             return FactoryLoadStateViewHolder(
-                binding
+                binding,retry
             )
         }
     }
