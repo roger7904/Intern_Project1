@@ -20,17 +20,14 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
 
     private val compositeDisposable = CompositeDisposable() //當頁面destroy可以自動取消訂閱，避免memory leak
 
-    val loading = MutableLiveData<Boolean>()
     val factoryInfoPagingData = MutableLiveData<PagingData<FactoryObject.DataX>>()
 
     fun getFactoryInfoPagingData() {
-        loading.value = true
         compositeDisposable.add(
             repository.getFactoryInfo()
                 .cachedIn(viewModelScope)
                 .subscribe {
                     factoryInfoPagingData.value = it
-                    loading.value = false
                 }
         )
     }

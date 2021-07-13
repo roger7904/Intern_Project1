@@ -42,21 +42,33 @@ class MainActivity : AppCompatActivity() {
         mbinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
 
-
         mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
             FactoryViewModel::class.java)
 
-        pagingDataAdaptor = FactoryInfoAdapter()
-
         mFactoryViewModel.getFactoryInfoPagingData()
 
+        initAdapter()
 
+        factoryViewModelObserver()
+    }
+
+    private fun factoryViewModelObserver() {
+
+        mFactoryViewModel.factoryInfoPagingData.observe(
+            this,
+            Observer {
+                pagingDataAdaptor.submitData(lifecycle, it)
+            }
+        )
+    }
+
+    private fun initAdapter(){
+        pagingDataAdaptor = FactoryInfoAdapter()
 
         mbinding.rvFactorInfo.apply {
             layoutManager= LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = pagingDataAdaptor
-
         }
 
         mbinding.rvFactorInfo.adapter =
@@ -90,27 +102,8 @@ class MainActivity : AppCompatActivity() {
                 mFactoryViewModel.getFactoryInfoPagingData()
             }
         }
-
-
-        factoryViewModelObserver()
     }
 
-    private fun factoryViewModelObserver() {
-
-        mFactoryViewModel.factoryInfoPagingData.observe(
-            this,
-            Observer {
-                pagingDataAdaptor.submitData(lifecycle, it)
-            }
-        )
-
-        mFactoryViewModel.loading.observe(this, Observer { loading ->
-            loading?.let {
-                mbinding.swipeRefresh.isRefreshing=loading
-                Log.i("Loading", "$loading")
-            }
-        })
-    }
 }
 
 
