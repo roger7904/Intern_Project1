@@ -44,10 +44,10 @@
             android:elevation="10dp">
 
             <ImageView
-                android:id="@+id/iv_favorite_dish"
+                android:id="@+id/iv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_favorite_unselected" />
+                android:src="@drawable/ic_baseline_favorite_24" />
         </LinearLayout>
     </FrameLayout>
 
@@ -83,7 +83,7 @@
         android:id="@+id/iv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@drawable/ic_baseline_location_on_24" />
+        android:src="@drawable/ic_baseline_location_on_24" />
 
     </LinearLayout>
 
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            tools:src="@drawable/ic_baseline_phone_24" />
+            android:src="@drawable/ic_baseline_phone_24" />
 
     </LinearLayout>
 

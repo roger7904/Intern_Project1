@@ -1,5 +1,4 @@
 package com.example.intern_project1.view.viewholder
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

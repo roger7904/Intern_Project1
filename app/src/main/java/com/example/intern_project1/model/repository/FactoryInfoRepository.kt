@@ -15,10 +15,10 @@ class FactoryInfoRepository(private val pagingSource: FactoryPagingSource){
         //Flowable用來解決觀察者與被觀察者傳誦與接收資料速度差距過大所會發生的記憶體不足情形
         return Pager(
             config = PagingConfig(
-                initialLoadSize = 6, //初始化數據時加載的數量
-                pageSize = 5, //設置每頁加載的數量
-                prefetchDistance = 5, //預加載的數量
-                maxSize = 30, //刪除頁面前可加載的最大item數量
+                initialLoadSize = 3, //初始化數據時加載的數量
+                pageSize = 2, //設置每頁加載的數量
+                prefetchDistance = 1, //預加載的數量
+                maxSize = 10, //刪除頁面前可加載的最大item數量
                 enablePlaceholders = true //當項目為空是否需要 Placeholder 默認為 true
                 ),
             pagingSourceFactory = {

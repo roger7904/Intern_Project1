@@ -50,9 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         mFactoryViewModel.getFactoryInfoPagingData()
 
-        mbinding.swipeRefresh.setOnRefreshListener {
-            mFactoryViewModel.getFactoryInfoPagingData()
-        }
+
 
         mbinding.rvFactorInfo.apply {
             layoutManager= LinearLayoutManager(context)
@@ -61,35 +59,38 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-//        mbinding.rvFactorInfo.adapter =
-//            pagingDataAdaptor.withLoadStateFooter(
-//                footer = FactoryLoadStateAdapter{
-//                    pagingDataAdaptor.retry()
-//                })
+        mbinding.rvFactorInfo.adapter =
+            pagingDataAdaptor.withLoadStateFooter(
+                footer = FactoryLoadStateAdapter{
+                    pagingDataAdaptor.retry()
+                })
 
-//        pagingDataAdaptor.addLoadStateListener { loadState ->
-//            //show progress bar when the load state is Loading
-//            mbinding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-//
-//            //load state for error and show the msg on UI
-//            val errorState = loadState.source.append as? LoadState.Error
-//                ?: loadState.source.prepend as? LoadState.Error
-//                ?: loadState.append as? LoadState.Error
-//                ?: loadState.prepend as? LoadState.Error
-//
-//            errorState?.let {
-//                AlertDialog.Builder(this)
-//                    .setTitle(R.string.error)
-//                    .setMessage(it.error.localizedMessage)
-//                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-//                        dialog.dismiss()
-//                    }
-//                    .setPositiveButton(R.string.retry) { _, _ ->
-//                        pagingDataAdaptor.retry()
-//                    }
-//                    .show()
-//            }
-//        }
+
+        pagingDataAdaptor.addLoadStateListener { loadState ->
+            //show progress bar when the load state is Loading
+            mbinding.swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
+
+            //load state for error and show the msg on UI
+            mbinding.llError.isVisible = loadState.source.refresh is LoadState.Error
+
+            mbinding.rvFactorInfo.isVisible =  !mbinding.llError.isVisible
+
+            if (loadState.source.refresh is LoadState.Error){
+                mbinding.btnRetry.setOnClickListener {
+                    pagingDataAdaptor.retry()
+                }
+
+                mbinding.llError.isVisible = loadState.source.refresh is LoadState.Error
+
+                val errorMessage =(loadState.source.refresh as LoadState.Error).error.message
+                mbinding.tvErrorMessage.text = errorMessage
+            }
+
+            mbinding.swipeRefresh.setOnRefreshListener {
+                mFactoryViewModel.getFactoryInfoPagingData()
+            }
+        }
+
 
         factoryViewModelObserver()
     }
