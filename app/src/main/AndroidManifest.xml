@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.intern_project1">
     <uses-permission android:name="android.permission.INTERNET"/>
+
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Intern_Project1">
-        <activity android:name=".view.activities.MainActivity">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC-2JXBnVpZxIaYI6m_S2I3OdCZQlwCmCM" />
+
+        <activity
+            android:name=".view.activities.MainActivity">
+
+        </activity>
+
+        <activity
+            android:name=".view.activities.MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

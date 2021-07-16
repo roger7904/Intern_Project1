@@ -25,7 +25,7 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
     fun getFactoryInfoPagingData() {
         compositeDisposable.add(
             repository.getFactoryInfo()
-                .cachedIn(viewModelScope)
+                .cachedIn(viewModelScope) //緩存Flow<PagingData>
                 .subscribe {
                     factoryInfoPagingData.value = it
                 }

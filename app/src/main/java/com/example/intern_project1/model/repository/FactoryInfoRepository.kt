@@ -14,6 +14,7 @@ class FactoryInfoRepository(private val pagingSource: FactoryPagingSource){
     fun getFactoryInfo(): Flowable<PagingData<FactoryObject.DataX>> {
         //Flowable用來解決觀察者與被觀察者傳誦與接收資料速度差距過大所會發生的記憶體不足情形
         return Pager(
+            //Pager.flow 用於建立一個基於config的 Flow<PagingData> 和定義一個實例化 PagingSource 的函數
             config = PagingConfig(
                 initialLoadSize = 3, //初始化數據時加載的數量
                 pageSize = 2, //設置每頁加載的數量

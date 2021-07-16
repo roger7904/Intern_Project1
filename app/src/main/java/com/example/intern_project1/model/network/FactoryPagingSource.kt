@@ -38,7 +38,7 @@ class FactoryPagingSource(
             }
     }
 
-    //沒用到?????????
+    //提供頁面更新所要返回的key，如果key=null，則載入初始頁面
     override fun getRefreshKey(state: PagingState<Int, FactoryObject.DataX>): Int? {
         return state.anchorPosition
     }

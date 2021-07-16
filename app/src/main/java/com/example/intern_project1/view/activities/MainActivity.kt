@@ -1,34 +1,17 @@
 package com.example.intern_project1.view.activities
 
-import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingSource
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ActivityMainBinding
-import com.example.intern_project1.model.network.FactoryPagingSource
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
-import com.example.intern_project1.model.repository.FactoryInfoRepository
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
-import com.example.intern_project1.viewmodel.FactoryViewModelFactory
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         mbinding.rvFactorInfo.apply {
             layoutManager= LinearLayoutManager(context)
-            setHasFixedSize(true)
+            setHasFixedSize(true) // item改變不會影響rv寬高，避免重新計算，耗資源
             adapter = pagingDataAdaptor
         }
 
@@ -89,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
             if (loadState.source.refresh is LoadState.Error){
                 mbinding.btnRetry.setOnClickListener {
-                    pagingDataAdaptor.retry()
+                    pagingDataAdaptor.retry() //paging library 會觸發 pagingSource.load()
                 }
 
                 mbinding.llError.isVisible = loadState.source.refresh is LoadState.Error
