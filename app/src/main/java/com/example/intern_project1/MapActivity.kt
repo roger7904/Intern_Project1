@@ -1,14 +1,11 @@
 package com.example.intern_project1.view.activities
 
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import com.example.intern_project1.R
 import com.example.intern_project1.BitmapHelper
 import com.example.intern_project1.MarkerInfoWindowAdapter
+import com.example.intern_project1.R
 import com.example.intern_project1.place.Place
 import com.example.intern_project1.place.PlaceRenderer
 import com.example.intern_project1.place.PlacesReader
@@ -19,8 +16,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ktx.addMarker
-import com.google.maps.android.ktx.awaitMap
-import com.google.maps.android.ktx.awaitMapLoad
 
 
 class MapActivity : AppCompatActivity() , OnMapReadyCallback {
@@ -35,26 +30,28 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
         setContentView(R.layout.activity_map)
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        lifecycleScope.launchWhenCreated {
-            // Get map
-            val googleMap = mapFragment.awaitMap()
+        mapFragment.getMapAsync(this)
 
-            addClusteredMarkers(googleMap)
-
-            // Wait for map to finish loading
-            googleMap.awaitMapLoad()
-
-            googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    this@MapActivity, R.raw.style
-                )
-            )
-
-            // Ensure all places are visible in the map
-            val bounds = LatLngBounds.builder()
-            places.forEach { bounds.include(it.latLng) }
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
-        }
+//        lifecycleScope.launchWhenCreated {
+//            // Get map
+//            val googleMap = mapFragment.awaitMap()
+//
+//            addClusteredMarkers(googleMap)
+//
+//            // Wait for map to finish loading
+//            googleMap.awaitMapLoad()
+//
+//            googleMap.setMapStyle(
+//                MapStyleOptions.loadRawResourceStyle(
+//                    this@MapActivity, R.raw.style
+//                )
+//            )
+//
+//            // Ensure all places are visible in the map
+//            val bounds = LatLngBounds.builder()
+//            places.forEach { bounds.include(it.latLng) }
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
+//        }
     }
     // [END maps_android_add_map_codelab_ktx_coroutines]
 
@@ -152,21 +149,28 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            val success = googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    this, R.raw.style
-                )
+        
+        addClusteredMarkers(googleMap)
+
+        googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                this, R.raw.style
             )
-            Log.i(TAG, "123")
-            if (!success) {
-                Log.e(TAG, "Style parsing failed.")
-            }
-        } catch (e: Resources.NotFoundException) {
-            Log.e(TAG, "Can't find style. Error: ", e)
+        )
+
+        googleMap.setOnMapLoadedCallback {
+            // Ensure all places are visible in the map
+            val bounds = LatLngBounds.builder()
+            places.forEach { bounds.include(it.latLng) }
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
         }
+
+//        val australiaBounds = LatLngBounds(
+//            LatLng((-44.0), 113.0),  // SW bounds
+//            LatLng((-10.0), 154.0) // NE bounds
+//        )
+//        map.moveCamera(CameraUpdateFactory.newLatLngBounds(australiaBounds, 0))
+
         // Position the map's camera near Sydney, Australia.
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34, 151)))
     }
