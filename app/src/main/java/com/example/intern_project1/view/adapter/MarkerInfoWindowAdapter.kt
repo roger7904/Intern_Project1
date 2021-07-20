@@ -12,32 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.example.intern_project1
+package com.example.intern_project1.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
+import com.example.intern_project1.R
+import com.example.intern_project1.databinding.MarkerInfoContentsBinding
 import com.example.intern_project1.model.network.entities.entities.FactoryObject
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
 class MarkerInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWindowAdapter {
     override fun getInfoContents(marker: Marker?): View? {
-        // 1. Get tag
-        val factoryInfo = marker?.tag as? FactoryObject.DataX ?: return null
 
-        // 2. Inflate view and set title, address and rating
-        val view = LayoutInflater.from(context).inflate(R.layout.marker_info_contents, null)
-        view.findViewById<TextView>(R.id.tv_title).text = factoryInfo.name
-        view.findViewById<TextView>(R.id.tv_address).text = factoryInfo.address
-        view.findViewById<TextView>(R.id.tv_phone).text = factoryInfo.phone
-
-        return view
+        return null
     }
 
     override fun getInfoWindow(marker: Marker?): View? {
-        // Return null to indicate that the default window (white bubble) should be used
-        return null
+        val factoryInfo = marker?.tag as? FactoryObject.DataX ?: return null
+
+        val view = LayoutInflater.from(context).inflate(R.layout.marker_info_contents, null)
+        val binding = MarkerInfoContentsBinding.bind(view)
+        binding.tvTitle.text = factoryInfo.name
+        binding.tvAddress.text = factoryInfo.address
+        binding.tvPhone.text = factoryInfo.phone
+
+        return view
     }
 }
