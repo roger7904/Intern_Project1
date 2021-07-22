@@ -1,10 +1,14 @@
 package com.example.intern_project1.view.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +38,7 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
     private lateinit var mFactoryViewModel: FactoryViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private var cameraPosition: CameraPosition? = null
     private val defaultLocation = LatLng(25.0, 121.0)
     private var locationPermissionGranted = false
     private var lastKnownLocation: Location? = null
@@ -41,8 +46,17 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+        if (savedInstanceState != null) {
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
+            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
+        }
+
         mbinding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
+
+        setSupportActionBar(mbinding.toolbar)
 
         mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
             FactoryViewModel::class.java)
@@ -54,6 +68,36 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
+        R.id.back -> {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        map?.let { map ->
+            outState.putParcelable(KEY_CAMERA_POSITION, map.cameraPosition)
+            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -214,5 +258,7 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
         private val TAG = MapActivity::class.java.simpleName
         private const val DEFAULT_ZOOM = 11
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+        private const val KEY_CAMERA_POSITION = "camera_position"
+        private const val KEY_LOCATION = "location"
     }
 }

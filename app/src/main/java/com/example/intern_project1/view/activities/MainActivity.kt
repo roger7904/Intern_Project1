@@ -1,12 +1,17 @@
 package com.example.intern_project1.view.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ActivityMainBinding
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
@@ -25,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         mbinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mbinding.root)
 
+        setSupportActionBar(mbinding.toolbar)
+
         mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
             FactoryViewModel::class.java)
 
@@ -33,6 +40,24 @@ class MainActivity : AppCompatActivity() {
         initAdapter()
 
         factoryViewModelObserver()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.back -> {
+                val intent = Intent(this, MapActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun factoryViewModelObserver() {

@@ -12,8 +12,7 @@
     <color name="gray">#5B5B5B</color>
     <color name="dark_gray">#3C3C3C</color>
     <color name="light_gray">#ADADAD</color>
-
-
+    <color name="very_light_gray">#d1d1d1</color>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryTranslucent">#556200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
