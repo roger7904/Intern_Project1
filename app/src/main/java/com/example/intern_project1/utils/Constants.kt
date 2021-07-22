@@ -7,4 +7,6 @@ object Constants {
     const val API_ENDPOINT: String = "api/v1/web/publicMaintenance"
 
     const val PAGE: String = "page"
+
+    const val IMAGE_API_URL = "https://cargulu-stage.s3.ap-northeast-1.amazonaws.com/web/"
 }

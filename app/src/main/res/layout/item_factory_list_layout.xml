@@ -8,7 +8,8 @@
     <FrameLayout
         android:id="@+id/fl_factory_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -64,7 +65,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_below="@id/fl_factory_image"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_20dp"
@@ -130,6 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_phone"
         android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginBottom="@dimen/margin_5dp"
         android:text="@string/tv_brand"
         android:textSize="@dimen/text_size_12dp"
         android:textColor="@color/light_gray"
@@ -142,6 +144,7 @@
         android:textColor="@color/dark_gray"
         android:layout_marginTop="@dimen/margin_2dp"
         android:layout_below="@id/tv_brand"
+        android:layout_marginBottom="@dimen/margin_10dp"
         android:textSize="@dimen/text_size_16dp"
         android:text="@string/tv_brandname" />
 

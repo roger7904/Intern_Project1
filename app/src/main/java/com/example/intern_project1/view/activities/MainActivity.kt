@@ -1,15 +1,16 @@
 package com.example.intern_project1.view.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ActivityMainBinding
@@ -17,6 +18,7 @@ import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,12 +73,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAdapter(){
+
         pagingDataAdaptor = FactoryInfoAdapter()
 
         mbinding.rvFactorInfo.apply {
             layoutManager= LinearLayoutManager(context)
             setHasFixedSize(true) // item改變不會影響rv寬高，避免重新計算，耗資源
             adapter = pagingDataAdaptor
+            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
         }
 
         mbinding.rvFactorInfo.adapter =
