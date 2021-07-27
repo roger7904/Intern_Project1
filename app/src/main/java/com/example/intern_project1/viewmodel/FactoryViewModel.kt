@@ -37,7 +37,9 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
                 .subscribeWith(object : DisposableSingleObserver<FactoryObject.FactoryInfo>() {
                     override fun onSuccess(value: FactoryObject.FactoryInfo?) {
                         loading.value = false
-                        value?.let { response.value }
+                        value?.let {
+                            response.value = it
+                        }
                         loadingError.value = false
                     }
 
