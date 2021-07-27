@@ -1,13 +1,9 @@
 package com.example.intern_project1.view.adapter
 
-import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
-import com.example.intern_project1.databinding.ItemFactoryListLayoutBinding
+import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.view.viewholder.FactoryViewHolder
 
 class FactoryInfoAdapter : PagingDataAdapter<FactoryObject.DataX, FactoryViewHolder>(COMPARATOR) {

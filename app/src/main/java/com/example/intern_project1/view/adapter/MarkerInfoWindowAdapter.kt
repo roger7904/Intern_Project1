@@ -19,7 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.MarkerInfoContentsBinding
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 

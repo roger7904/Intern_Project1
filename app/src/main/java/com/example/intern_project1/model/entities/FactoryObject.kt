@@ -1,4 +1,4 @@
-package com.example.intern_project1.model.network.entities.entities
+package com.example.intern_project1.model.entities
 
 object FactoryObject {
 

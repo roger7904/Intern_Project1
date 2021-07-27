@@ -4,13 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.filter
 import androidx.paging.rxjava3.cachedIn
 import com.example.intern_project1.model.network.FactoryApiService
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.model.repository.FactoryInfoRepository
+import com.example.intern_project1.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -32,13 +31,13 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
         loading.value = true
 
         compositeDisposable.add(
-            factoryApiService.getFactoryInfo(1)
+            factoryApiService.getFactoryInfo(Constants.CONSTANT_ONE)
                 .subscribeOn(Schedulers.newThread())//要在哪個thread執行
                 .observeOn(AndroidSchedulers.mainThread())//執行後的callback要在哪個thread執行
                 .subscribeWith(object : DisposableSingleObserver<FactoryObject.FactoryInfo>() {
                     override fun onSuccess(value: FactoryObject.FactoryInfo?) {
                         loading.value = false
-                        response.value = value!!
+                        value?.let { response.value }
                         loadingError.value = false
                     }
 

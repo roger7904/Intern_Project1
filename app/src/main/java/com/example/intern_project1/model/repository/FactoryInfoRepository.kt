@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.flowable
 import com.example.intern_project1.model.network.FactoryPagingSource
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import io.reactivex.rxjava3.core.Flowable
 
 

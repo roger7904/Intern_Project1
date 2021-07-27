@@ -4,7 +4,7 @@ package com.example.intern_project1.model.network
 import android.util.Log
 import androidx.paging.PagingState
 import androidx.paging.rxjava3.RxPagingSource
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
@@ -18,7 +18,6 @@ class FactoryPagingSource(
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, FactoryObject.DataX>> {
         val position = params.key ?: 1
-        Log.i("FactoryInfo Page", "$position")
         return factoryApiService
             .getFactoryInfo(position)
             .subscribeOn(Schedulers.io())

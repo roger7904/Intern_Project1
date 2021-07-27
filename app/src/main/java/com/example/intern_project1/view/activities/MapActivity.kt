@@ -18,7 +18,7 @@ import com.example.intern_project1.utils.BitmapHelper
 import com.example.intern_project1.view.adapter.MarkerInfoWindowAdapter
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ActivityMapBinding
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.viewmodel.FactoryViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -235,8 +235,6 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
                             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                 LatLng(lastKnownLocation!!.latitude,
                                     lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
-                            Log.i(TAG, "Current location is "
-                                    +lastKnownLocation!!.latitude+lastKnownLocation!!.longitude)
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")

@@ -9,4 +9,6 @@ object Constants {
     const val PAGE: String = "page"
 
     const val IMAGE_API_URL = "https://cargulu-stage.s3.ap-northeast-1.amazonaws.com/web/"
+
+    const val CONSTANT_ONE = 1
 }

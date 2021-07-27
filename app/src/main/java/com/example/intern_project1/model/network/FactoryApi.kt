@@ -1,6 +1,6 @@
 package com.example.intern_project1.model.network
 
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.utils.Constants
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET

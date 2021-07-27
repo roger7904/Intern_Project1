@@ -1,13 +1,12 @@
 package com.example.intern_project1.view.viewholder
-import android.graphics.drawable.Drawable
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ItemFactoryListLayoutBinding
-import com.example.intern_project1.model.network.entities.entities.FactoryObject
+import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.utils.Constants
 
 class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : RecyclerView.ViewHolder(mbinding.root) {
