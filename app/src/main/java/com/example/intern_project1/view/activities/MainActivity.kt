@@ -80,38 +80,37 @@ class MainActivity : AppCompatActivity() {
             layoutManager= LinearLayoutManager(context)
             setHasFixedSize(true) // item改變不會影響rv寬高，避免重新計算，耗資源
             adapter = pagingDataAdaptor
-            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
-        }
-
-        mbinding.rvFactorInfo.adapter =
-            pagingDataAdaptor.withLoadStateFooter(
+            adapter = pagingDataAdaptor.withLoadStateFooter(
                 footer = FactoryLoadStateAdapter{
                     pagingDataAdaptor.retry()
                 })
-
+            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+        }
 
         pagingDataAdaptor.addLoadStateListener { loadState ->
-            //show progress bar when the load state is Loading
-            mbinding.swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
 
-            //load state for error and show the msg on UI
-            mbinding.llError.isVisible = loadState.source.refresh is LoadState.Error
+            mbinding.run {
+                //show progress bar when the load state is Loading
+                swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
+                //load state for error and show the msg on UI
+                llError.isVisible = loadState.source.refresh is LoadState.Error
 
-            mbinding.rvFactorInfo.isVisible =  !mbinding.llError.isVisible
+                rvFactorInfo.isVisible =  !llError.isVisible
 
-            if (loadState.source.refresh is LoadState.Error){
-                mbinding.btnRetry.setOnClickListener {
-                    pagingDataAdaptor.retry() //paging library 會觸發 pagingSource.load()
+                if (loadState.source.refresh is LoadState.Error){
+                    btnRetry.setOnClickListener {
+                        pagingDataAdaptor.retry() //paging library 會觸發 pagingSource.load()
+                    }
+
+                    llError.isVisible = loadState.source.refresh is LoadState.Error
+
+                    val errorMessage =(loadState.source.refresh as LoadState.Error).error.message
+                    tvErrorMessage.text = errorMessage
                 }
 
-                mbinding.llError.isVisible = loadState.source.refresh is LoadState.Error
-
-                val errorMessage =(loadState.source.refresh as LoadState.Error).error.message
-                mbinding.tvErrorMessage.text = errorMessage
-            }
-
-            mbinding.swipeRefresh.setOnRefreshListener {
-                mFactoryViewModel.getFactoryInfoPagingData()
+                swipeRefresh.setOnRefreshListener {
+                    mFactoryViewModel.getFactoryInfoPagingData()
+                }
             }
         }
     }
