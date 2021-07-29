@@ -39,8 +39,6 @@ class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapR
 
     private lateinit var map: GoogleMap
 
-//    private lateinit var mbinding: ActivityMapBinding
-//    private lateinit var mFactoryViewModel: FactoryViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private var cameraPosition: CameraPosition? = null
@@ -55,22 +53,6 @@ class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapR
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
-
-//        mbinding = ActivityMapBinding.inflate(layoutInflater)
-//        setContentView(mbinding.root)
-//
-//        setSupportActionBar(mbinding.toolbar)
-//
-//        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
-//            FactoryViewModel::class.java)
-//
-//        mFactoryViewModel.getFactoryInfoFromApi()
-//
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-//
-//        val mapFragment =
-//            supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
 
     }
 

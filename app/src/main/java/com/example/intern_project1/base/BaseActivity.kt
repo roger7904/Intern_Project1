@@ -20,9 +20,9 @@ abstract class BaseActivity<VM : ViewModel,B : ViewBinding> : AppCompatActivity(
         factory = getViewModelFactory()
         binding = getViewBinding()
         toolbar = getToolBar()
-        viewModel = ViewModelProvider(this, factory).get(getViewModelClass())
         setContentView(binding.root)
         setSupportActionBar(toolbar)
+        viewModel = ViewModelProvider(this, factory).get(getViewModelClass())
         init()
     }
 

@@ -1,7 +1,6 @@
 package com.example.intern_project1.view.activities
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,26 +22,7 @@ import com.example.intern_project1.viewmodel.FactoryViewModel
 
 class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
 
-    //private lateinit var mbinding: ActivityMainBinding
-    //private lateinit var mFactoryViewModel: FactoryViewModel
     private lateinit var pagingDataAdaptor: FactoryInfoAdapter
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        mbinding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(mbinding.root)
-//
-//        setSupportActionBar(binding.toolbar)
-//
-//        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(FactoryViewModel::class.java)
-//
-//        viewModel.getFactoryInfoPagingData()
-//
-//        initAdapter()
-//
-//        factoryViewModelObserver()
-//    }
 
     override fun getViewModelFactory(): ViewModelProvider.Factory {
         return Injection.provideFactoryViewModel(this)
