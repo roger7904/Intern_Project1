@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
+import com.example.intern_project1.base.BaseState
 import com.example.intern_project1.model.network.FactoryApiService
 import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.model.repository.FactoryInfoRepository
@@ -23,12 +24,10 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
 
     val factoryInfoPagingData = MutableLiveData<PagingData<FactoryObject.DataX>>()
 
-    val loading = MutableLiveData<Boolean>()
-    val response = MutableLiveData<FactoryObject.FactoryInfo>()
-    val loadingError = MutableLiveData<Boolean>()
+    val state = MutableLiveData<BaseState>()
 
     fun getFactoryInfoFromApi() {
-        loading.value = true
+        state.value = BaseState.Loading
 
         compositeDisposable.add(
             factoryApiService.getFactoryInfo(Constants.CONSTANT_ONE)
@@ -36,17 +35,16 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
                 .observeOn(AndroidSchedulers.mainThread())//執行後的callback要在哪個thread執行
                 .subscribeWith(object : DisposableSingleObserver<FactoryObject.FactoryInfo>() {
                     override fun onSuccess(value: FactoryObject.FactoryInfo?) {
-                        loading.value = false
+
                         value?.let {
-                            response.value = it
+                            state.value = BaseState.Success(it)
                         }
-                        loadingError.value = false
                     }
 
                     override fun onError(e: Throwable?) {
-                        loading.value = false
-                        loadingError.value = true
-                        e!!.printStackTrace()
+                        e?.let {
+                            state.value = BaseState.Error(it.message ?: "something went wrong")
+                        }
                     }
                 })
         )

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.intern_project1.utils.BitmapHelper
 import com.example.intern_project1.view.adapter.MarkerInfoWindowAdapter
 import com.example.intern_project1.R
+import com.example.intern_project1.base.BaseState
 import com.example.intern_project1.databinding.ActivityMapBinding
 import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.utils.Injection
@@ -121,32 +123,30 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
 
     private fun factoryViewModelObserver() {
 
-        mFactoryViewModel.response.observe(
-            this,
-            Observer { response ->
-                response?.let {
+        mFactoryViewModel.state.observe(this){
+            when (it) {
+                is BaseState.Success -> {
+                    it?.let {
 
-                    addMarkers(map,response.data.data)
+                        addMarkers(map,it.data.data.data)
 
-                    Log.i("FactoryInfo Response", "${response.data.data[0]}")
+                        Log.i("FactoryInfo Response", "${it.data.data.data[0]}")
+                    }
                 }
-            })
-
-        mFactoryViewModel.loadingError.observe(
-            this,
-            Observer { dataError ->
-                dataError?.let {
-                    Log.i("API Error", "$dataError")
+                is BaseState.Error -> {
+                    it?.let {
+                        //do some error action
+                        Log.i("API Error", "${it.message}")
+                    }
                 }
-            })
-
-        mFactoryViewModel.loading.observe(this,
-            Observer { loading ->
-                loading?.let {
-                    Log.i("Loading", "$loading")
+                is BaseState.Loading -> {
+                    it?.let {
+                        //do some loading action
+                        Log.i("Loading", "true")
+                    }
                 }
-            })
-
+            }
+        }
     }
 
     private val factoryIcon: BitmapDescriptor by lazy {

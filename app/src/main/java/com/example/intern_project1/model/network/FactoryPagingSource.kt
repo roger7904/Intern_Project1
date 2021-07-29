@@ -1,7 +1,5 @@
 package com.example.intern_project1.model.network
 
-
-import android.util.Log
 import androidx.paging.PagingState
 import androidx.paging.rxjava3.RxPagingSource
 import com.example.intern_project1.model.entities.FactoryObject
