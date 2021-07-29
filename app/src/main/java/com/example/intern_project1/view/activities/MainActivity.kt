@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.intern_project1.R
+import com.example.intern_project1.base.BaseActivity
 import com.example.intern_project1.databinding.ActivityMainBinding
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
@@ -20,24 +21,43 @@ import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
 
-    private lateinit var mbinding: ActivityMainBinding
-    private lateinit var mFactoryViewModel: FactoryViewModel
+    //private lateinit var mbinding: ActivityMainBinding
+    //private lateinit var mFactoryViewModel: FactoryViewModel
     private lateinit var pagingDataAdaptor: FactoryInfoAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        mbinding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(mbinding.root)
+//
+//        setSupportActionBar(binding.toolbar)
+//
+//        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(FactoryViewModel::class.java)
+//
+//        viewModel.getFactoryInfoPagingData()
+//
+//        initAdapter()
+//
+//        factoryViewModelObserver()
+//    }
 
-        mbinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mbinding.root)
+    override fun getViewModelFactory(): ViewModelProvider.Factory {
+        return Injection.provideFactoryViewModel(this)
+    }
 
-        setSupportActionBar(mbinding.toolbar)
+    override fun getViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
 
-        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
-            FactoryViewModel::class.java)
+    override fun getToolBar(): Toolbar {
+        return binding.toolbar
+    }
 
-        mFactoryViewModel.getFactoryInfoPagingData()
+    override fun init() {
+        viewModel.getFactoryInfoPagingData()
 
         initAdapter()
 
@@ -64,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun factoryViewModelObserver() {
 
-        mFactoryViewModel.factoryInfoPagingData.observe(
+        viewModel.factoryInfoPagingData.observe(
             this,
             Observer {
                 pagingDataAdaptor.submitData(lifecycle, it)
@@ -76,8 +96,8 @@ class MainActivity : AppCompatActivity() {
 
         pagingDataAdaptor = FactoryInfoAdapter()
 
-        mbinding.rvFactorInfo.apply {
-            layoutManager= LinearLayoutManager(context)
+        binding.rvFactorInfo.apply {
+            layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true) // item改變不會影響rv寬高，避免重新計算，耗資源
             adapter = pagingDataAdaptor
             adapter = pagingDataAdaptor.withLoadStateFooter(
@@ -88,8 +108,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         pagingDataAdaptor.addLoadStateListener { loadState ->
-
-            mbinding.run {
+            binding.run {
                 //show progress bar when the load state is Loading
                 swipeRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
                 //load state for error and show the msg on UI
@@ -109,11 +128,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 swipeRefresh.setOnRefreshListener {
-                    mFactoryViewModel.getFactoryInfoPagingData()
+                    viewModel.getFactoryInfoPagingData()
                 }
             }
         }
     }
+
+
 
 }
 

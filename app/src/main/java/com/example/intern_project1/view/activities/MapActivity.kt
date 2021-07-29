@@ -11,6 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -18,7 +19,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.intern_project1.utils.BitmapHelper
 import com.example.intern_project1.view.adapter.MarkerInfoWindowAdapter
 import com.example.intern_project1.R
+import com.example.intern_project1.base.BaseActivity
 import com.example.intern_project1.base.BaseState
+import com.example.intern_project1.databinding.ActivityMainBinding
 import com.example.intern_project1.databinding.ActivityMapBinding
 import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.utils.Injection
@@ -32,12 +35,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.ktx.addMarker
 
-class MapActivity : AppCompatActivity() , OnMapReadyCallback {
+class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
 
-    private lateinit var mbinding: ActivityMapBinding
-    private lateinit var mFactoryViewModel: FactoryViewModel
+//    private lateinit var mbinding: ActivityMapBinding
+//    private lateinit var mFactoryViewModel: FactoryViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private var cameraPosition: CameraPosition? = null
@@ -53,22 +56,44 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
-        mbinding = ActivityMapBinding.inflate(layoutInflater)
-        setContentView(mbinding.root)
+//        mbinding = ActivityMapBinding.inflate(layoutInflater)
+//        setContentView(mbinding.root)
+//
+//        setSupportActionBar(mbinding.toolbar)
+//
+//        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
+//            FactoryViewModel::class.java)
+//
+//        mFactoryViewModel.getFactoryInfoFromApi()
+//
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+//
+//        val mapFragment =
+//            supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
-        setSupportActionBar(mbinding.toolbar)
+    }
 
-        mFactoryViewModel = ViewModelProvider(this, Injection.provideFactoryViewModel(this)).get(
-            FactoryViewModel::class.java)
+    override fun getViewModelFactory(): ViewModelProvider.Factory {
+        return Injection.provideFactoryViewModel(this)
+    }
 
-        mFactoryViewModel.getFactoryInfoFromApi()
+    override fun getViewBinding(): ActivityMapBinding {
+        return ActivityMapBinding.inflate(layoutInflater)
+    }
+
+    override fun getToolBar(): Toolbar {
+        return binding.toolbar
+    }
+
+    override fun init() {
+        viewModel.getFactoryInfoFromApi()
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -123,13 +148,11 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
 
     private fun factoryViewModelObserver() {
 
-        mFactoryViewModel.state.observe(this){
+        viewModel.state.observe(this){
             when (it) {
                 is BaseState.Success -> {
                     it?.let {
-
                         addMarkers(map,it.data.data.data)
-
                         Log.i("FactoryInfo Response", "${it.data.data.data[0]}")
                     }
                 }
@@ -256,4 +279,6 @@ class MapActivity : AppCompatActivity() , OnMapReadyCallback {
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
     }
+
+
 }
