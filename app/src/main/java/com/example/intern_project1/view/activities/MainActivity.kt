@@ -53,7 +53,7 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
-            R.id.back -> {
+            R.id.map -> {
                 val intent = Intent(this, MapActivity::class.java)
                 startActivity(intent)
                 true
@@ -114,6 +114,9 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
         }
     }
 
+    override fun backButton(): Boolean {
+        return false
+    }
 
 
 }

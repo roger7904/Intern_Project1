@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.example.intern_project1.R
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseActivity<VM : ViewModel,B : ViewBinding> : AppCompatActivity() {
@@ -22,6 +23,13 @@ abstract class BaseActivity<VM : ViewModel,B : ViewBinding> : AppCompatActivity(
         toolbar = getToolBar()
         setContentView(binding.root)
         setSupportActionBar(toolbar)
+        if(backButton()){
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+            toolbar.setNavigationOnClickListener {
+                onBackPressed()
+            }
+        }
         viewModel = ViewModelProvider(this, factory).get(getViewModelClass())
         init()
     }
@@ -39,4 +47,5 @@ abstract class BaseActivity<VM : ViewModel,B : ViewBinding> : AppCompatActivity(
 
     abstract fun init()
 
+    abstract fun backButton(): Boolean
 }

@@ -84,20 +84,20 @@ class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapR
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-
-        R.id.back -> {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            true
-        }
-
-        else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+//
+//        R.id.back -> {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            true
+//        }
+//
+//        else -> {
+//            // If we got here, the user's action was not recognized.
+//            // Invoke the superclass to handle it.
+//            super.onOptionsItemSelected(item)
+//        }
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         map?.let { map ->
@@ -260,6 +260,10 @@ class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapR
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
+    }
+
+    override fun backButton(): Boolean {
+        return true
     }
 
 
