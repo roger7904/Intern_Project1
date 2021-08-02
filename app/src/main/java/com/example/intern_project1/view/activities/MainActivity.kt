@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -12,17 +13,24 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.intern_project1.R
+import com.example.intern_project1.application.FavoriteApplication
 import com.example.intern_project1.base.BaseActivity
 import com.example.intern_project1.databinding.ActivityMainBinding
+import com.example.intern_project1.model.database.FavoriteRepository
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
+import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FavoriteViewModelFactory
 
 
 class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
 
     private lateinit var pagingDataAdaptor: FactoryInfoAdapter
+    private val favoriteViewModel : FavoriteViewModel by viewModels {
+        FavoriteViewModelFactory((application as FavoriteApplication).repository)
+    }
 
     override fun getViewModelFactory(): ViewModelProvider.Factory {
         return Injection.provideFactoryViewModel(this)
@@ -58,6 +66,11 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
                 startActivity(intent)
                 true
             }
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -74,9 +87,11 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
 
     private fun initAdapter(){
 
-        pagingDataAdaptor = FactoryInfoAdapter()
 
-        binding.rvFactorInfo.apply {
+
+        pagingDataAdaptor = FactoryInfoAdapter(favoriteViewModel)
+
+        binding.rvFactoryInfo.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true) // item改變不會影響rv寬高，避免重新計算，耗資源
             adapter = pagingDataAdaptor
@@ -94,7 +109,7 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
                 //load state for error and show the msg on UI
                 llError.isVisible = loadState.source.refresh is LoadState.Error
 
-                rvFactorInfo.isVisible =  !llError.isVisible
+                rvFactoryInfo.isVisible =  !llError.isVisible
 
                 if (loadState.source.refresh is LoadState.Error){
                     btnRetry.setOnClickListener {
@@ -117,7 +132,6 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
     override fun backButton(): Boolean {
         return false
     }
-
 
 }
 

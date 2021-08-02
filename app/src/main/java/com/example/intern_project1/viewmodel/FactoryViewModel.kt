@@ -2,6 +2,7 @@ package com.example.intern_project1.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
@@ -58,5 +59,18 @@ class FactoryViewModel(private val repository: FactoryInfoRepository) : ViewMode
                     factoryInfoPagingData.value = it
                 }
         )
+    }
+}
+
+class FactoryViewModelFactory(private val repository: FactoryInfoRepository): ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(FactoryViewModel::class.java)) {
+            return FactoryViewModel(
+                repository
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

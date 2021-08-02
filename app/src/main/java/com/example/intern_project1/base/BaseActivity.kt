@@ -45,7 +45,7 @@ abstract class BaseActivity<VM : ViewModel,B : ViewBinding> : AppCompatActivity(
     
     abstract fun getToolBar(): Toolbar
 
-    abstract fun init()
-
     abstract fun backButton(): Boolean
+
+    abstract fun init()
 }

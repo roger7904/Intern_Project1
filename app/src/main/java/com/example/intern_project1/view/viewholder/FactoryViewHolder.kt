@@ -2,18 +2,22 @@ package com.example.intern_project1.view.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ItemFactoryListLayoutBinding
 import com.example.intern_project1.model.entities.FactoryObject
+import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.utils.Constants
+import com.example.intern_project1.view.activities.FavoriteActivity
+import com.example.intern_project1.viewmodel.FavoriteViewModel
 
 class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : RecyclerView.ViewHolder(mbinding.root) {
 
     private var factoryInfo: FactoryObject.DataX? = null
 
-    fun bind(factoryInfo: FactoryObject.DataX) {
+    fun bind(factoryInfo: FactoryObject.DataX, viewModel: FavoriteViewModel) {
         this.factoryInfo=factoryInfo
 
         mbinding.tvCity.text = factoryInfo.city
@@ -28,6 +32,26 @@ class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : Re
             .load(imageResult)
             .into(mbinding.ivFactoryImage)
 
+        mbinding.ivFavorite.setOnClickListener {
+            viewModel.insert(
+                Favorite(
+                    factoryInfo.name,
+                    if (factoryInfo.address.isEmpty()) "未提供地址" else factoryInfo.address,
+                    factoryInfo.city,
+                    if (factoryInfo.phone.isEmpty()) "未提供電話" else factoryInfo.phone,
+                    if (factoryInfo.tags.isEmpty()) "全車系" else factoryInfo.tags,
+                    if(factoryInfo.maintenance_plant_photo.isEmpty()) ""
+                    else factoryInfo.maintenance_plant_photo[0].filename,
+                    factoryInfo.id,
+                )
+            )
+
+            Toast.makeText(
+                it.context,
+                "已加入收藏",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
     }
 

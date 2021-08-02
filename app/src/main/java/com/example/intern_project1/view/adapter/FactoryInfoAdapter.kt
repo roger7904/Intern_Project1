@@ -4,9 +4,11 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.intern_project1.model.entities.FactoryObject
+import com.example.intern_project1.view.activities.FavoriteActivity
 import com.example.intern_project1.view.viewholder.FactoryViewHolder
+import com.example.intern_project1.viewmodel.FavoriteViewModel
 
-class FactoryInfoAdapter : PagingDataAdapter<FactoryObject.DataX, FactoryViewHolder>(COMPARATOR) {
+class FactoryInfoAdapter(private val viewModel: FavoriteViewModel): PagingDataAdapter<FactoryObject.DataX, FactoryViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FactoryViewHolder {
         return FactoryViewHolder.create(
@@ -16,7 +18,7 @@ class FactoryInfoAdapter : PagingDataAdapter<FactoryObject.DataX, FactoryViewHol
 
     override fun onBindViewHolder(holder: FactoryViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it)
+            holder.bind(it,viewModel)
         }
     }
 

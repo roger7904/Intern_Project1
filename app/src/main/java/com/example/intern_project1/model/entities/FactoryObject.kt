@@ -1,5 +1,9 @@
 package com.example.intern_project1.model.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 object FactoryObject {
 
     data class FactoryInfo(
@@ -69,3 +73,15 @@ object FactoryObject {
         val updated_at: String
     )
 }
+
+@Entity(tableName = "favorite_table")
+data class Favorite(
+    @ColumnInfo val name: String,
+    @ColumnInfo val address: String,
+    @ColumnInfo val city: String,
+    @ColumnInfo val phone: String,
+    @ColumnInfo val tags: String,
+    // Specifies the name of the column in the table if you want it to be different from the name of the member variable.
+    @ColumnInfo val maintenance_plant_photo: String,
+    @PrimaryKey val id: Int,
+)
