@@ -21,16 +21,11 @@ import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
 import com.example.intern_project1.viewmodel.FactoryViewModel
-import com.example.intern_project1.viewmodel.FavoriteViewModel
-import com.example.intern_project1.viewmodel.FavoriteViewModelFactory
 
 
 class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
 
     private lateinit var pagingDataAdaptor: FactoryInfoAdapter
-    private val favoriteViewModel : FavoriteViewModel by viewModels {
-        FavoriteViewModelFactory((application as FavoriteApplication).repository)
-    }
 
     override fun getViewModelFactory(): ViewModelProvider.Factory {
         return Injection.provideFactoryViewModel(this)
@@ -83,13 +78,20 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
                 pagingDataAdaptor.submitData(lifecycle, it)
             }
         )
+
+        viewModel.allFavorite.observe(
+            this,
+            Observer {
+                viewModel.getFactoryInfoPagingData()
+            }
+        )
     }
 
     private fun initAdapter(){
 
 
 
-        pagingDataAdaptor = FactoryInfoAdapter(favoriteViewModel)
+        pagingDataAdaptor = FactoryInfoAdapter(viewModel)
 
         binding.rvFactoryInfo.apply {
             layoutManager = LinearLayoutManager(context)

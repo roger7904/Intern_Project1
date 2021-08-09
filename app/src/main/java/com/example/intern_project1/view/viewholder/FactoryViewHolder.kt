@@ -10,14 +10,14 @@ import com.example.intern_project1.databinding.ItemFactoryListLayoutBinding
 import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.utils.Constants
-import com.example.intern_project1.view.activities.FavoriteActivity
-import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FactoryViewModel
+
 
 class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : RecyclerView.ViewHolder(mbinding.root) {
 
     private var factoryInfo: FactoryObject.DataX? = null
 
-    fun bind(factoryInfo: FactoryObject.DataX, viewModel: FavoriteViewModel) {
+    fun bind(factoryInfo: FactoryObject.DataX, viewModel: FactoryViewModel) {
         this.factoryInfo=factoryInfo
 
         mbinding.tvCity.text = factoryInfo.city
@@ -25,32 +25,56 @@ class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : Re
         mbinding.tvAddress.text = if (factoryInfo.address.isEmpty()) "未提供地址" else factoryInfo.address
         mbinding.tvPhone.text = if (factoryInfo.phone.isEmpty()) "未提供電話" else factoryInfo.phone
         mbinding.tvBrandname.text = if (factoryInfo.tags.isEmpty()) "全車系" else factoryInfo.tags
-
+        if (factoryInfo.isFavorite == true){
+            mbinding.ivFavorite.background =
+                itemView.context.resources.getDrawable(R.drawable.ic_favorite_selected)
+        }else {
+            mbinding.ivFavorite.background =
+                itemView.context.resources.getDrawable(R.drawable.ic_favorite_unselect)
+        }
         val imageResult = if(factoryInfo.maintenance_plant_photo.isEmpty()) R.drawable.test_picture
-                        else Constants.IMAGE_API_URL+factoryInfo.maintenance_plant_photo[0].filename
+        else Constants.IMAGE_API_URL+factoryInfo.maintenance_plant_photo[0].filename
         Glide.with(itemView)
             .load(imageResult)
             .into(mbinding.ivFactoryImage)
 
         mbinding.ivFavorite.setOnClickListener {
-            viewModel.insert(
-                Favorite(
-                    factoryInfo.name,
-                    if (factoryInfo.address.isEmpty()) "未提供地址" else factoryInfo.address,
-                    factoryInfo.city,
-                    if (factoryInfo.phone.isEmpty()) "未提供電話" else factoryInfo.phone,
-                    if (factoryInfo.tags.isEmpty()) "全車系" else factoryInfo.tags,
-                    if(factoryInfo.maintenance_plant_photo.isEmpty()) ""
-                    else factoryInfo.maintenance_plant_photo[0].filename,
-                    factoryInfo.id,
+            if (factoryInfo.isFavorite == true) {
+                factoryInfo.isFavorite = false
+                mbinding.ivFavorite.background =
+                    itemView.context.resources.getDrawable(R.drawable.ic_favorite_unselect)
+                viewModel.deleteById(factoryInfo.id)
+                Toast.makeText(
+                    it.context,
+                    "已刪除收藏",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else {
+                factoryInfo.isFavorite = true
+                mbinding.ivFavorite.background =
+                    itemView.context.resources.getDrawable(R.drawable.ic_favorite_selected)
+                viewModel.insert(
+                    Favorite(
+                        factoryInfo.name,
+                        if (factoryInfo.address.isEmpty()) "未提供地址" else factoryInfo.address,
+                        factoryInfo.city,
+                        if (factoryInfo.phone.isEmpty()) "未提供電話" else factoryInfo.phone,
+                        if (factoryInfo.tags.isEmpty()) "全車系" else factoryInfo.tags,
+                        if(factoryInfo.maintenance_plant_photo.isEmpty()) ""
+                        else factoryInfo.maintenance_plant_photo[0].filename,
+                        factoryInfo.id,
+                    )
                 )
-            )
+                Toast.makeText(
+                    it.context,
+                    "已加入收藏",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
-            Toast.makeText(
-                it.context,
-                "已加入收藏",
-                Toast.LENGTH_SHORT
-            ).show()
+
+
+
         }
 
     }

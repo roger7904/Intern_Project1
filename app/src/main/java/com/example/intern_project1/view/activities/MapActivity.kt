@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.intern_project1.utils.BitmapHelper
 import com.example.intern_project1.view.adapter.MarkerInfoWindowAdapter
 import com.example.intern_project1.R
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.ktx.addMarker
+import kotlinx.coroutines.launch
 
 class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapReadyCallback {
 
@@ -69,7 +71,9 @@ class MapActivity : BaseActivity<FactoryViewModel,ActivityMapBinding>() , OnMapR
     }
 
     override fun init() {
-        viewModel.getFactoryInfoFromApi()
+        lifecycleScope.launch {
+            viewModel.getFactoryInfoFromApi()
+        }
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 

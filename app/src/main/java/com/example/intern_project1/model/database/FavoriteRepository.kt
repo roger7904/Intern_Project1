@@ -15,6 +15,10 @@ class FavoriteRepository(private val favoriteDao: FavoriteDao) {
     // Observed Flow will notify the observer when the data has changed.
     val allFavorite: Flow<List<Favorite>> = favoriteDao.getAllFavoriteList()
 
+    @WorkerThread
+    suspend fun getAllFavoriteListNotFlowData() : List<Favorite>{
+        return favoriteDao.getAllFavoriteListNotFlow()
+    }
 
     @WorkerThread
     suspend fun deleteFavoriteData(favorite: Favorite) {

@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.view.viewholder.FavoriteViewHolder
-import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FactoryViewModel
 
-class FavoriteAdapter(private val viewModel: FavoriteViewModel) : ListAdapter<Favorite, FavoriteViewHolder>(COMPARATOR) {
+class FavoriteAdapter(private val viewModel: FactoryViewModel) : ListAdapter<Favorite, FavoriteViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         return FavoriteViewHolder.create(

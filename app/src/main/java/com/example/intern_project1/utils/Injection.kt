@@ -7,7 +7,6 @@ import com.example.intern_project1.model.network.FactoryApiService
 import com.example.intern_project1.model.network.FactoryPagingSource
 import com.example.intern_project1.model.repository.FactoryInfoRepository
 import com.example.intern_project1.viewmodel.FactoryViewModelFactory
-import com.example.intern_project1.viewmodel.FavoriteViewModelFactory
 
 
 object Injection {
@@ -15,7 +14,8 @@ object Injection {
     fun provideFactoryViewModel(context: Context): ViewModelProvider.Factory {
         val pagingSource =
             FactoryPagingSource(
-                FactoryApiService(),
+                FactoryApiService.create(),
+                (context.applicationContext as FavoriteApplication).repository
             )
 
         val repository =
@@ -24,13 +24,7 @@ object Injection {
             )
 
         return FactoryViewModelFactory(
-            repository
-        )
-    }
-
-    fun provideFavoriteViewModel(context: Context): ViewModelProvider.Factory {
-        return FavoriteViewModelFactory(
-            (context.applicationContext as FavoriteApplication).repository
+            repository, (context.applicationContext as FavoriteApplication).repository
         )
     }
 

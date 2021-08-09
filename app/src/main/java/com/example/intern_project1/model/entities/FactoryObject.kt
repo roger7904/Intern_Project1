@@ -60,7 +60,8 @@ object FactoryObject {
         val type: String,
         val updated_at: String,
         val watch: Int,
-        val weekdays: String
+        val weekdays: String,
+        var isFavorite: Boolean?,
     )
 
     data class MaintenancePlantPhoto(

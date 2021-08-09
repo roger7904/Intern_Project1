@@ -9,14 +9,14 @@ import com.example.intern_project1.databinding.ActivityFavoriteBinding
 import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FavoriteAdapter
-import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FactoryViewModel
 
-class FavoriteActivity : BaseActivity<FavoriteViewModel, ActivityFavoriteBinding>() {
+class FavoriteActivity : BaseActivity<FactoryViewModel, ActivityFavoriteBinding>() {
 
     private lateinit var adaptor: FavoriteAdapter
 
     override fun getViewModelFactory(): ViewModelProvider.Factory {
-        return Injection.provideFavoriteViewModel(this)
+        return Injection.provideFactoryViewModel(this)
     }
 
     override fun getViewBinding(): ActivityFavoriteBinding {

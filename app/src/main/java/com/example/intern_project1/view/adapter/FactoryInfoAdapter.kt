@@ -4,11 +4,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.intern_project1.model.entities.FactoryObject
-import com.example.intern_project1.view.activities.FavoriteActivity
 import com.example.intern_project1.view.viewholder.FactoryViewHolder
-import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FactoryViewModel
 
-class FactoryInfoAdapter(private val viewModel: FavoriteViewModel): PagingDataAdapter<FactoryObject.DataX, FactoryViewHolder>(COMPARATOR) {
+class FactoryInfoAdapter(private val viewModel: FactoryViewModel): PagingDataAdapter<FactoryObject.DataX, FactoryViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FactoryViewHolder {
         return FactoryViewHolder.create(

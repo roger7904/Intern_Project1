@@ -51,13 +51,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
             android:layout_margin="@dimen/margin_10dp"
-            android:background="@drawable/favorite_button_background"
             android:elevation="10dp">
 
             <ImageView
                 android:id="@+id/iv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ic_favorite_unselect"
                 android:src="@drawable/ic_baseline_favorite_24" />
         </LinearLayout>
     </FrameLayout>

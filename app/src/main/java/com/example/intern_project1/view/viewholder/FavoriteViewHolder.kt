@@ -9,12 +9,12 @@ import com.example.intern_project1.R
 import com.example.intern_project1.databinding.ItemFactoryListLayoutBinding
 import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.utils.Constants
-import com.example.intern_project1.viewmodel.FavoriteViewModel
+import com.example.intern_project1.viewmodel.FactoryViewModel
 
 class FavoriteViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : RecyclerView.ViewHolder(mbinding.root) {
     private var favorite: Favorite? = null
 
-    fun bind(favorite: Favorite,viewModel: FavoriteViewModel) {
+    fun bind(favorite: Favorite,viewModel: FactoryViewModel) {
         this.favorite=favorite
 
         mbinding.tvCity.text = favorite.city
@@ -22,6 +22,9 @@ class FavoriteViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : R
         mbinding.tvAddress.text = if (favorite.address.isEmpty()) "未提供地址" else favorite.address
         mbinding.tvPhone.text = if (favorite.phone.isEmpty()) "未提供電話" else favorite.phone
         mbinding.tvBrandname.text = if (favorite.tags.isEmpty()) "全車系" else favorite.tags
+        mbinding.ivFavorite.background =
+            itemView.context.resources.getDrawable(R.drawable.ic_favorite_selected)
+
 
         val imageResult = if(favorite.maintenance_plant_photo.isEmpty()) R.drawable.test_picture
         else Constants.IMAGE_API_URL+favorite.maintenance_plant_photo
@@ -31,7 +34,7 @@ class FavoriteViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : R
 
         mbinding.ivFavorite.setOnClickListener {
             viewModel.deleteById(
-                    favorite.id,
+                favorite.id,
             )
 
             Toast.makeText(
