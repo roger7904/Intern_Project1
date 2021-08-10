@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
@@ -52,7 +53,7 @@ class FactoryViewModel(private val factoryRepository: FactoryInfoRepository,
     }
 
     fun insert(favorite: Favorite) = viewModelScope.launch {
-        favoriteRepository.insertFavoriteData(favorite)
+            favoriteRepository.insertFavoriteData(favorite)
     }
 
     val allFavorite: LiveData<List<Favorite>> = favoriteRepository.allFavorite.asLiveData()
@@ -65,6 +66,7 @@ class FactoryViewModel(private val factoryRepository: FactoryInfoRepository,
     fun deleteById(id: Int) = viewModelScope.launch {
         favoriteRepository.deleteFavoriteDataById(id)
     }
+
 }
 
 class FactoryViewModelFactory(private val factoryRepository: FactoryInfoRepository,

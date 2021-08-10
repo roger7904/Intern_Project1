@@ -11,13 +11,17 @@ import com.example.intern_project1.model.entities.FactoryObject
 import com.example.intern_project1.model.entities.Favorite
 import com.example.intern_project1.utils.Constants
 import com.example.intern_project1.viewmodel.FactoryViewModel
+import kotlinx.coroutines.Job
 
 
 class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : RecyclerView.ViewHolder(mbinding.root) {
 
     private var factoryInfo: FactoryObject.DataX? = null
 
-    fun bind(factoryInfo: FactoryObject.DataX, viewModel: FactoryViewModel) {
+    fun bind(
+        factoryInfo: FactoryObject.DataX,
+        viewModel: FactoryViewModel,
+    ) {
         this.factoryInfo=factoryInfo
 
         mbinding.tvCity.text = factoryInfo.city
@@ -71,10 +75,6 @@ class FactoryViewHolder(private val mbinding: ItemFactoryListLayoutBinding) : Re
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-
-
-
         }
 
     }

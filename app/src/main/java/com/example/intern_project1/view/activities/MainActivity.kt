@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -13,10 +12,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.intern_project1.R
-import com.example.intern_project1.application.FavoriteApplication
 import com.example.intern_project1.base.BaseActivity
 import com.example.intern_project1.databinding.ActivityMainBinding
-import com.example.intern_project1.model.database.FavoriteRepository
 import com.example.intern_project1.utils.Injection
 import com.example.intern_project1.view.adapter.FactoryInfoAdapter
 import com.example.intern_project1.view.adapter.FactoryLoadStateAdapter
@@ -88,8 +85,6 @@ class MainActivity : BaseActivity<FactoryViewModel,ActivityMainBinding>() {
     }
 
     private fun initAdapter(){
-
-
 
         pagingDataAdaptor = FactoryInfoAdapter(viewModel)
 
