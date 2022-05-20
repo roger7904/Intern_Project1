@@ -1,3 +1,3 @@
-# Intern_Project1
+# Intern_Project
 
 ![spec](docs/spec.png)
